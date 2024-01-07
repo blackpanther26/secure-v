@@ -3,12 +3,16 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { ArrowRightCircle } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
-import headerImg from "../assets/images/header-img.jpg";
+import headerImg from "../assets/images/header-img.png";
 
 export const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const toRotate = ["Web Developer", "Web Designer", "UI/UX Designer"];
+  const toRotate = [
+    "No need to remember so many passwords now",
+    "Get passwords for the websites using one master password",
+    "Remember only one password",
+  ];
   const [text, setText] = useState("");
   const [delta, setDelta] = useState(300 - Math.random() * 100);
   const period = 2000;
@@ -48,7 +52,7 @@ export const Banner = () => {
           <Col xs={12} md={6} xl={7}>
             <span className="tagline">Welcome to Secure V !</span>
             <h1>
-              {`Hi I am Priyanshu Chahal`}
+              {``}
               <span className="wrap">{text}</span>
             </h1>
             <p>
