@@ -1,80 +1,95 @@
-import React from "react";
-//import PropTypes from "prop-types";
+import React, { useEffect, useState} from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 import { useAuth0 } from "@auth0/auth0-react";
-import {Link} from 'react-router-dom';
-function Navbar(props) {
-  const { user,loginWithRedirect,isAuthenticated ,logout} = useAuth0();
-  return (
-    <div>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <a className="navbar-brand fw-bolder" href="/">
-            <Link to="/" className='navbar-logo'>
-                TRVL <i className='fa-solid fa-v'/>
-            </Link>
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">
-                  Link
-                </a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="/"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="/">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="/">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="/">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            {
-                isAuthenticated&&<p className="mx-3 my-2">{user.name}</p>
+function BasicExample() {
+  const { user, loginWithRedirect, isAuthenticated, logout } = useAuth0();
+  const [activeLink, setActiveLink] = useState("home");
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", onscroll);
 
-            }
-            {
-                isAuthenticated?(
-                    <button
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  const onUpdateActiveLink =(value)=>{
+    setActiveLink(value);
+  }
+  return (
+    <Navbar expand="lg" className={scrolled ? "scrolled" : ""}>
+      <Container>
+        <Navbar.Brand href="#home" className="fw-bolder fs-2 text-reset">
+          {/* <img src={""} alt="Logo" /> */}
+          SECURE V
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <span className="navbar-toggle-icon"></span>
+        </Navbar.Toggle>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link
+              href="#home"
+              className={
+                activeLink === "home" ? "active-navbar-link" : "navbar-link"
+              }
+              onClick={() => onUpdateActiveLink("home")}
+            >
+              Home
+            </Nav.Link>
+            <Nav.Link
+              href="#Add password"
+              className={
+                activeLink === "Add password"
+                  ? "active-navbar-link"
+                  : "navbar-link"
+              }
+              onClick={() => onUpdateActiveLink("Add password")}
+            >
+              Add password
+            </Nav.Link>
+            <Nav.Link
+              href="#Update password"
+              className={ 
+                activeLink === "Update password"
+                  ? "active-navbar-link"
+                  : "navbar-link"
+              }
+              onClick={() => onUpdateActiveLink("Update password")}
+            >
+              Update password
+            </Nav.Link>
+            <Nav.Link
+              href="#Display password"
+              className={
+                activeLink === "Display password"
+                  ? "active-navbar-link"
+                  : "navbar-link"
+              }
+              onClick={() => onUpdateActiveLink("Display password")}
+            >
+              Display password
+            </Nav.Link>
+            <Nav.Link
+              href="#Generate Password"
+              className={
+                activeLink === "Generate Password"
+                  ? "active-navbar-link"
+                  : "navbar-link"
+              }
+              onClick={() => onUpdateActiveLink("Generate Password")}
+            >
+              Generate Password
+            </Nav.Link>
+            {isAuthenticated && <p className="mx-3 my-2">{user.name}</p>}
+            {isAuthenticated ? (
+              <button
                 type="button"
                 className="btn btn-dark"
                 onClick={() =>
@@ -83,23 +98,20 @@ function Navbar(props) {
               >
                 Log Out
               </button>
-                ):(
-                    <button
+            ) : (
+              <button
                 type="button"
                 className="btn btn-dark"
                 onClick={() => loginWithRedirect()}
               >
                 Log In
               </button>
-                )
-            }
-          </div>
-        </div>
-      </nav>
-    </div>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
-Navbar.propTypes = {};
-
-export default Navbar;
+export default BasicExample;
